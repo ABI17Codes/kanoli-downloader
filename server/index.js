@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
@@ -24,11 +24,13 @@ dotenv.config();
 //     },
 //   })
 // );
-app.use(cors({
-  origin: `${process.env.API_URL}`,
-methods: ['POST'],
-allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+app.use(
+  cors({
+    origin: `${process.env.API_URL}`,
+    methods: ["POST"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(express.json());
 
 const execPromise = util.promisify(exec);
@@ -38,9 +40,9 @@ const DOWNLOADS_DIR = path.join(__dirname, "downloads");
 if (!fs.existsSync(DOWNLOADS_DIR)) {
   fs.mkdirSync(DOWNLOADS_DIR, { recursive: true });
 }
- 
+
 // Path to yt-dlp.exe (place yt-dlp.exe in your project folder)
-const YT_DLP_PATH = path.join(__dirname, "yt-dlp.exe");
+const YT_DLP_PATH = path.join(__dirname, "yt-dlp_linux");
 
 app.post("/download-youtube", async (req, res) => {
   try {
@@ -114,11 +116,9 @@ app.post("/download-youtube", async (req, res) => {
     const videoStats = fs.statSync(videoFilePath);
     if (videoStats.size < 1024) {
       fs.unlinkSync(videoFilePath);
-      return res
-        .status(500)
-        .json({
-          error: "Downloaded video appears to be corrupted (size too small)",
-        });
+      return res.status(500).json({
+        error: "Downloaded video appears to be corrupted (size too small)",
+      });
     }
 
     // STEP 3: Download audio-only file (as MP3)
@@ -154,18 +154,16 @@ app.post("/download-youtube", async (req, res) => {
     const audioStats = fs.statSync(audioFilePath);
     if (audioStats.size < 1024) {
       fs.unlinkSync(audioFilePath);
-      return res
-        .status(500)
-        .json({
-          error: "Downloaded audio appears to be corrupted (size too small)",
-        });
+      return res.status(500).json({
+        error: "Downloaded audio appears to be corrupted (size too small)",
+      });
     }
 
     // STEP 4: Check for thumbnail file (try multiple extensions)
     const thumbExtensions = [".jpg", ".jpeg", ".png", ".webp"];
     let thumbnail = null;
     for (const ext of thumbExtensions) {
-      const thumbFileName = `${ await getTitleFromOutput(
+      const thumbFileName = `${await getTitleFromOutput(
         DOWNLOADS_DIR,
         timestamp
       )}-${timestamp}${ext}`;
