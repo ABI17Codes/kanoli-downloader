@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* SEO-friendly outline for keyboard navigation */
+:focus {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+  }
+  
+  /* Hide outline for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  #root {
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  /* Improved text readability */
+  p, h1, h2, h3, h4, h5, h6 {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Ensure proper contrast ratios for accessibility */
+  .text-gray-600 {
+    color: #4B5563;
+  }
+  
+  /* Improved button focus states for accessibility */
+  button:focus {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+  }
