@@ -42,7 +42,7 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
 }
 
 // Path to yt-dlp.exe (place yt-dlp.exe in your project folder)
-const YT_DLP_PATH = path.join(__dirname, "yt-dlp_linux");
+const YT_DLP_PATH = path.join(__dirname, "yt-dlp.exe");
 
 app.post("/download-youtube", async (req, res) => {
   try {
