@@ -1,11 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-// const helmet = require("helmet");
 const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 const util = require("util");
+const helmet = require("helmet");
 const dotenv = require("dotenv");
+const serverless = require("serverless-http");
 
 const app = express();
 
@@ -24,6 +25,7 @@ dotenv.config();
 //     },
 //   })
 // );
+app.use(helmet());
 app.use(
   cors({
     origin: `${process.env.API_URL}`,
@@ -42,7 +44,7 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
 }
 
 // Path to yt-dlp.exe (place yt-dlp.exe in your project folder)
-const YT_DLP_PATH = path.join(__dirname, "yt-dlp_linux");
+const YT_DLP_PATH = path.join(__dirname, "yt-dlp.exe");
 
 app.post("/download-youtube", async (req, res) => {
   try {
@@ -228,6 +230,11 @@ app.use(
 function sanitizeFileName(fileName) {
   return fileName.replace(/[^a-zA-Z0-9_.\-]/g, "_");
 }
+
+app.get("/", (req, res) => {
+  res.send("Hello from Express on Vercel!");
+});
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
