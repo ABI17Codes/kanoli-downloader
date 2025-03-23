@@ -29,7 +29,7 @@ dotenv.config();
 app.use(
   cors({
     origin: `${process.env.API_URL}`,
-    methods: ["POST"],
+    methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
