@@ -44,7 +44,11 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
 }
 
 // Path to yt-dlp.exe (place yt-dlp.exe in your project folder)
-const YT_DLP_PATH = path.join(__dirname, "yt-dlp.exe");
+// const YT_DLP_PATH = path.join(__dirname, "yt-dlp.exe");
+const YT_DLP_PATH =
+  os.platform() === "win32"
+    ? path.join(__dirname, "yt-dlp.exe") // Windows
+    : path.join(__dirname, "yt-dlp_linux"); // Linux
 
 app.post("/download-youtube", async (req, res) => {
   try {
@@ -235,10 +239,9 @@ function sanitizeFileName(fileName) {
 //   res.send("Hello from Express on Vercel!");
 // });
 
-
-app.get("/",(req,res)=>{
-  res.send("Backend Home Page")
-})
+app.get("/", (req, res) => {
+  res.send("Backend Home Page");
+});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
