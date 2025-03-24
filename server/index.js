@@ -55,7 +55,8 @@ app.post("/download-youtube", async (req, res) => {
     }
 
     // STEP 1: Extract metadata using --dump-json
-    const metadataCommand = `"${YT_DLP_PATH}" --dump-json --no-playlist "${videoUrl}"`;
+    // const metadataCommand = `"${YT_DLP_PATH}" --dump-json --no-playlist "${videoUrl}"`;
+    const metadataCommand = `"${YT_DLP_PATH}" --cookies /opt/render/project/src/server/cookies.txt --dump-json --no-playlist "${videoUrl}"`;
     const { stdout: metadataStdout } = await execPromise(metadataCommand);
     const metadata = JSON.parse(metadataStdout);
 
