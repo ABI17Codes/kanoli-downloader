@@ -56,7 +56,9 @@ app.post("/download-youtube", async (req, res) => {
 
     // STEP 1: Extract metadata using --dump-json
     // const metadataCommand = `"${YT_DLP_PATH}" --dump-json --no-playlist "${videoUrl}"`;
-    const metadataCommand = `"${YT_DLP_PATH}" --cookies /opt/render/project/src/server/cookies.txt --dump-json --no-playlist "${videoUrl}"`;
+    // const metadataCommand = `"${YT_DLP_PATH}" --cookies /opt/render/project/src/server/cookies.txt --dump-json --no-playlist "${videoUrl}"`;
+    const delay = Math.floor(Math.random() * 10) + 5; // Wait 5-15 seconds
+    const metadataCommand = `sleep ${delay} && "${YT_DLP_PATH}" --cookies /opt/render/project/src/server/cookies.txt --dump-json --no-playlist "${videoUrl}"`;
     const { stdout: metadataStdout } = await execPromise(metadataCommand);
     const metadata = JSON.parse(metadataStdout);
 
